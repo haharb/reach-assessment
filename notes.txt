@@ -1,0 +1,50 @@
+POST /auth/login: -> 200 OK, with auth cookie, fetch-access token, expires in 1 hour
+    (name: user's name)
+    (email: user's email)
+
+POST /auth/logout: 
+    (invalidates cookie used for auth on the server side)
+
+GET /dogs/breeds -> string[] (breed_names)
+    (returns array of all breed names)
+
+GET /dogs/search?breeds={param1}&zipCodes={param2}&ageMin={param3}&ageMax={param4}&size={param5}&from={param6}&sort={param7}:
+    -> {resultIds: string[], total: number, next: string, prev: string} 
+    (breeds is an array)
+    (zipcodes is an array)
+    (size is number of results to be returned, 25 default)
+    (from is be used when paginating)
+    (sort's form is breed:asc/desc, sortable fields are breed, name, and age only)
+
+POST /dogs: -> Dogs[] (dog objects)
+    (body: string[] (dog_ids, max 100))
+
+POST /dogs/match -> {match: dog_id (string)}
+    (body: string[] (dog_ids, max 100))
+    (selects id from list, matches with user)
+
+POST /locations -> Locations[] 
+    (body: string[] (zipcodes, max 100))
+
+POST /locations/search -> {results: Locations[], total: number (total results for the query)}
+    (city is full or partial city name)
+    (states is an array of 2 letter state abbreviations)
+    (geoBoundingbox should contain (top, left, bottom, right) or (bottom_left, top_right) or (bottom_right, top_left))
+    (size is 25 default)
+    (from - cursor for pagination)
+    (10000 max zip codes can be matched for a query)
+    
+    body: {
+        city?: string,
+        states?: string[],
+        geoBoundingBox?: {
+            top?: Coordinates,
+            left?: Coordinates,
+            bottom?: Coordinates,
+            right?: Coordinates,
+            bottom_left?: Coordinates,
+            top_left?: Coordinates
+        },
+        size?: number,
+        from?: number
+    }
