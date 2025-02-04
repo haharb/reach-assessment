@@ -10,6 +10,12 @@ import {
   Icon,
   Badge,
   Card,
+  SelectRoot,
+  SelectLabel,
+  SelectValueText,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
 } from "@chakra-ui/react";
 
 const dogs: Dog[] = [
@@ -94,6 +100,19 @@ const dogs: Dog[] = [
     breed: "Siberian Husky",
   },
 ];
+const breeds = [
+  { name: "Husky" },
+  { name: "Golden Retriever" },
+  { name: "Labrador" },
+  { name: "German Shepsherd" },
+  { name: "Beagle" },
+  { name: "Bulldog" },
+  { name: "Poodle" },
+  { name: "Rottweiler" },
+  { name: "Siberian Husky" },
+  { name: "Boxer" },
+  { name: "Dachsund" },
+];
 
 function App() {
   const [isAscending, setIsAscending] = useState(false);
@@ -119,6 +138,19 @@ function App() {
 
   return (
     <div>
+      <SelectRoot multiple collection={breeds} size="sm" width="320px">
+        <SelectLabel>Select framework</SelectLabel>
+        <SelectTrigger>
+          <SelectValueText placeholder="Movie" />
+        </SelectTrigger>
+        <SelectContent>
+          {breeds.map((breed, index) => (
+            <SelectItem item={breed} key={index}>
+              {breed}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </SelectRoot>
       <SimpleGrid columns={[2, null, 3]} gap="40px" mt={5}>
         {sortedDogs.map((dog) => (
           <Card.Root maxW="sm" overflow="hidden" flexDirection="col">
