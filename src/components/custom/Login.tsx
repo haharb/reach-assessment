@@ -43,7 +43,12 @@ export const Login: React.FC<LoginProps> = ({
           errorText={errors.name?.message}
         >
           <InputGroup flex="1" startElement={<LuUser />}>
-            <Input {...register("name", { required: "Name is required" })} />
+            <Input
+              {...register("name", {
+                required: "Name is required",
+                pattern: /^[A-Za-z]+$/i,
+              })}
+            />
           </InputGroup>
         </Field>
 
@@ -53,7 +58,13 @@ export const Login: React.FC<LoginProps> = ({
           errorText={errors.email?.message}
         >
           <InputGroup flex="1" startElement={<LuUser />}>
-            <Input {...register("email", { required: "Email is required" })} />
+            <Input
+              {...register("email", {
+                required: "Email is required",
+                // Simple pattern, something@something.something, not meant to be all exclusive
+                pattern: /^\S+@\S+\.\S+$/,
+              })}
+            />
           </InputGroup>
         </Field>
 
