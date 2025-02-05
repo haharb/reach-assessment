@@ -1,7 +1,6 @@
 import { Button } from "@chakra-ui/react";
 import Dog from "../../types/Dog";
 import {
-  DrawerActionTrigger,
   DrawerBackdrop,
   DrawerBody,
   DrawerCloseTrigger,
@@ -16,18 +15,18 @@ import { MiniDogCard } from "./MiniDogCard";
 interface FavoritesBarProps {
   favorites: Map<string, Dog>;
   handleFavorite: (dog: Dog) => void;
-  setIsDrawerHidden: (value: boolean) => void;
-  isDrawerHidden: boolean;
+  setisDrawerShown: (value: boolean) => void;
+  isDrawerShown: boolean;
 }
 
 export const FavoritesBar: React.FC<FavoritesBarProps> = ({
   favorites,
   handleFavorite,
-  setIsDrawerHidden,
-  isDrawerHidden,
+  setisDrawerShown,
+  isDrawerShown,
 }) => {
   return (
-    <DrawerRoot placement="start" open={isDrawerHidden}>
+    <DrawerRoot placement="start" open={isDrawerShown}>
       <DrawerBackdrop />
       <DrawerContent>
         <DrawerHeader>
@@ -42,7 +41,7 @@ export const FavoritesBar: React.FC<FavoritesBarProps> = ({
           ))}
         </DrawerBody>
         <DrawerFooter>
-          <Button variant="outline" onClick={() => setIsDrawerHidden(false)}>
+          <Button variant="outline" onClick={() => setisDrawerShown(false)}>
             Cancel
           </Button>
           {favorites.size !== 0 && <Button>Match</Button>}

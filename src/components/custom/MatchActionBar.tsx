@@ -5,7 +5,7 @@ import { CiViewColumn } from "react-icons/ci";
 import { Field } from "../ui/field";
 
 interface MatchActionBarProps {
-  setIsDrawerHidden: (val: boolean) => void;
+  setisDrawerShown: (val: boolean) => void;
   favorites: Map<string, Dog>;
   clearFavorites: () => void;
   currentPage: number;
@@ -14,7 +14,7 @@ interface MatchActionBarProps {
 }
 
 export const MatchActionBar: React.FC<MatchActionBarProps> = ({
-  setIsDrawerHidden,
+  setisDrawerShown,
   favorites,
   clearFavorites,
   currentPage,
@@ -37,7 +37,7 @@ export const MatchActionBar: React.FC<MatchActionBarProps> = ({
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setIsDrawerHidden(true)}
+              onClick={() => setisDrawerShown(true)}
             >
               <CiViewColumn />
               View Favorites
