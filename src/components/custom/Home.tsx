@@ -12,23 +12,22 @@ import {
 import { DogCard } from "./DogCard";
 import { MatchActionBar } from "./MatchActionBar";
 import { FavoritesBar } from "./FavoritesBar";
+import { SearchBar } from "./SearchBar";
 
 interface HomeProps {
   email: string;
   name: string;
 }
-export const Home: React.FC<HomeProps> = ({ email, name }) => {
+export const Home: React.FC<HomeProps> = ({ name }) => {
   const [dogs, setDogs] = useState<Dog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [favorites, setFavorites] = useState(new Map<string, Dog>());
-  const [isDescending, setIsDescending] = useState(false);
   const [isDrawerShown, setisDrawerShown] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [finalPage, setFinalPage] = useState(1);
 
   const switchSort = () => {
-    setIsDescending(!isDescending);
     setDogs([...dogs.reverse()]);
   };
 
@@ -61,18 +60,11 @@ export const Home: React.FC<HomeProps> = ({ email, name }) => {
 
   return (
     <Stack>
-      <Text>Welcome {name}</Text>
-      <HStack>
-        <Button onClick={switchSort}>
-          {isDescending ? <p>Sort Ascending</p> : <p>Sort Descending</p>}
-        </Button>
-        <Input placeholder="Search Dogs" />
-        <Button>Search</Button>
-      </HStack>
-
+      <SearchBar name={name} switchSort={switchSort}></SearchBar>
       <SimpleGrid columns={[2, null, 3]} gap="40px" mt={5}>
         {dogs.map((dog) => (
           <DogCard
+            key={dog.id}
             dog={dog}
             favorites={favorites}
             handleFavorite={handleFavorite}

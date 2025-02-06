@@ -1,8 +1,14 @@
-import { ActionBar, Button, HStack, Portal } from "@chakra-ui/react";
+import {
+  ActionBar,
+  Button,
+  HStack,
+  Input,
+  Portal,
+  Text,
+} from "@chakra-ui/react";
 import { LuShare, LuTrash2 } from "react-icons/lu";
 import Dog from "../../types/Dog";
 import { CiViewColumn } from "react-icons/ci";
-import { Field } from "../ui/field";
 
 interface MatchActionBarProps {
   setisDrawerShown: (val: boolean) => void;
@@ -50,17 +56,18 @@ export const MatchActionBar: React.FC<MatchActionBarProps> = ({
                 size="sm"
                 onClick={() => updatePage(currentPage--)}
               >
-                Prev
+                -
               </Button>
-              <Field>
-                {currentPage} {finalPage}
-              </Field>
+
+              <Input width="0.5" value={currentPage}></Input>
+              <Text>{finalPage}</Text>
+
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => updatePage(currentPage++)}
               >
-                Next
+                +
               </Button>
             </HStack>
 

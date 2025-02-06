@@ -4,6 +4,7 @@ import { InputGroup } from "../ui/input-group";
 import { LuUser } from "react-icons/lu";
 import { Field } from "../ui/field";
 import { useForm } from "react-hook-form";
+import { login } from "../../services/auth";
 
 interface LoginProps {
   setIsLoggedIn: (val: boolean) => void;
@@ -28,9 +29,15 @@ export const Login: React.FC<LoginProps> = ({
   } = useForm<FormValues>();
 
   const onSubmit = handleSubmit((data) => {
-    setName(data.name);
-    setEmail(data.email);
-    setIsLoggedIn(true);
+    try {
+      console.log(`The data is ${data.email} and ${data.name}`);
+      login(data.name, data.email);
+      setName(data.name);
+      setEmail(data.email);
+      setIsLoggedIn(true);
+    } catch (e: any) {
+      console.error(`ERROR logging in ${e}`);
+    }
   });
 
   return (

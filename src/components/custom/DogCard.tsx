@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Badge, Card, HStack, Icon, Image } from "@chakra-ui/react";
 import { Tooltip } from "../ui/tooltip";
 import { FaDog, FaGlobeAmericas } from "react-icons/fa";
@@ -30,7 +30,7 @@ export const DogCard: React.FC<DogCardProps> = ({
         width="300px"
         height="200px"
       />
-      <Card.Body gap="2">
+      <Card.Body gap="1">
         <Card.Title>
           {dog.name}, {dog.age}
         </Card.Title>
@@ -48,15 +48,15 @@ export const DogCard: React.FC<DogCardProps> = ({
               {dog.zip_code}
             </Badge>
           </Tooltip>
+
+          {favorites.has(dog.id) && (
+            <Icon fontSize="2xl" color="red">
+              <HiHeart />
+            </Icon>
+          )}
         </HStack>
       </Card.Body>
-      <Card.Footer>
-        {favorites.has(dog.id) && (
-          <Icon fontSize="2xl" color="pink.700">
-            <HiHeart />
-          </Icon>
-        )}
-      </Card.Footer>
+      <Card.Footer></Card.Footer>
     </Card.Root>
   );
 };
