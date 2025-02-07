@@ -7,21 +7,22 @@ import { HiHeart } from "react-icons/hi";
 
 interface DogCardProps {
   dog: Dog;
-  favorites: Map<string, Dog>;
   handleFavorite: (dog: Dog) => void;
 }
 
-export const DogCard: React.FC<DogCardProps> = ({
-  dog,
-  favorites,
-  handleFavorite,
-}) => {
+export const DogCard: React.FC<DogCardProps> = ({ dog, handleFavorite }) => {
+  const [isFavorited, setIsFavorited] = useState(false);
+
+  const onFavorite = () => {
+    setIsFavorited(!isFavorited);
+    handleFavorite(dog);
+  };
   return (
     <Card.Root
       maxW="sm"
       overflow="hidden"
       flexDirection="col"
-      onDoubleClick={() => handleFavorite(dog)}
+      onDoubleClick={onFavorite}
     >
       <Image
         src={dog.img}
@@ -49,7 +50,7 @@ export const DogCard: React.FC<DogCardProps> = ({
             </Badge>
           </Tooltip>
 
-          {favorites.has(dog.id) && (
+          {isFavorited && (
             <Icon fontSize="2xl" color="red">
               <HiHeart />
             </Icon>

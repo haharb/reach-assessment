@@ -1,23 +1,23 @@
 import api from "./api";
 
-interface LoginResponse {
-  fetchAccessToken: string;
-}
+// interface LoginResponse {
+//   fetchAccessToken: string;
+// }
 
 export const login = async (email: string, name: string) => {
   try {
-    const response = await api.post<LoginResponse>("/auth/login", {
+    const response = await api.post("/auth/login", {
       name,
       email,
     });
 
-    const { fetchAccessToken } = response.data;
+    // if (response.data === 200) {
 
-    // Expires in 1 hour
-    const expirationTime: number = Date.now() + 3_600_000;
+    //   return;
+    // }
 
-    localStorage.setItem("accessToken", fetchAccessToken);
-    localStorage.setItem("expirationTime", expirationTime.toString());
+    // // Expires in 1 hour
+    // const expirationTime: number = Date.now() + 3_600_000;
   } catch (e) {
     console.error("Login failed", e);
     throw new Error("Unable to login");
@@ -25,18 +25,10 @@ export const login = async (email: string, name: string) => {
 };
 
 export const logout = async () => {
-  if (!isTokenValid) {
-    return;
+  try {
+    const response = await api.post("/auth/logout", {});
+  } catch (e) {
+    console.error("Logout failed", e);
+    throw new Error("Unable to logout, session is still valid");
   }
-
-  localStorage.removeItem("accessToken");
-  localStorage.removeItem("expirationTime");
-};
-
-export const isTokenValid = (): boolean => {
-  if (!localStorage.getItem("accessToken")) {
-    return false;
-  }
-  // Token is invalid after an hour
-  return Date.now() - Number(localStorage.getItem("expirationTime")) < 1000;
 };

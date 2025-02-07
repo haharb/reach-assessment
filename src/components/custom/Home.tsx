@@ -10,23 +10,17 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { DogCard } from "./DogCard";
-import { MatchActionBar } from "./MatchActionBar";
-import { FavoritesBar } from "./FavoritesBar";
 import { SearchBar } from "./SearchBar";
 
 interface HomeProps {
   email: string;
   name: string;
+  handleFavorite: (dog: Dog) => void;
 }
-export const Home: React.FC<HomeProps> = ({ name }) => {
+export const Home: React.FC<HomeProps> = ({ name, handleFavorite }) => {
   const [dogs, setDogs] = useState<Dog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [favorites, setFavorites] = useState(new Map<string, Dog>());
-  const [isDrawerShown, setisDrawerShown] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [finalPage, setFinalPage] = useState(1);
-
   const switchSort = () => {
     setDogs([...dogs.reverse()]);
   };
@@ -44,20 +38,6 @@ export const Home: React.FC<HomeProps> = ({ name }) => {
 
   if (isLoading) return <div>Is Loading</div>;
   if (error) return <div>Error {error}</div>;
-
-  const handleFavorite = (dog: Dog) => {
-    if (favorites.has(dog.id)) {
-      favorites.delete(dog.id);
-    } else {
-      favorites.set(dog.id, dog);
-    }
-    setFavorites(new Map<string, Dog>(favorites));
-  };
-
-  const clearFavorites = () => {
-    setFavorites(new Map<string, Dog>());
-  };
-
   return (
     <Stack>
       <SearchBar name={name} switchSort={switchSort}></SearchBar>
@@ -66,27 +46,10 @@ export const Home: React.FC<HomeProps> = ({ name }) => {
           <DogCard
             key={dog.id}
             dog={dog}
-            favorites={favorites}
             handleFavorite={handleFavorite}
           ></DogCard>
         ))}
       </SimpleGrid>
-
-      <MatchActionBar
-        setisDrawerShown={setisDrawerShown}
-        favorites={favorites}
-        clearFavorites={clearFavorites}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        finalPage={finalPage}
-      ></MatchActionBar>
-
-      <FavoritesBar
-        favorites={favorites}
-        handleFavorite={handleFavorite}
-        setisDrawerShown={setisDrawerShown}
-        isDrawerShown={isDrawerShown}
-      ></FavoritesBar>
     </Stack>
   );
 };

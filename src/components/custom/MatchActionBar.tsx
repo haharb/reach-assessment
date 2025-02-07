@@ -9,28 +9,35 @@ import {
 import { LuShare, LuTrash2 } from "react-icons/lu";
 import Dog from "../../types/Dog";
 import { CiViewColumn } from "react-icons/ci";
+import { useEffect, useState } from "react";
 
 interface MatchActionBarProps {
   setisDrawerShown: (val: boolean) => void;
-  favorites: Map<string, Dog>;
   clearFavorites: () => void;
   currentPage: number;
   setCurrentPage: (val: number) => void;
   finalPage: number;
+  favoritesCount: number;
 }
 
 export const MatchActionBar: React.FC<MatchActionBarProps> = ({
   setisDrawerShown,
-  favorites,
   clearFavorites,
   currentPage,
   setCurrentPage,
   finalPage,
+  favoritesCount,
 }) => {
   const updatePage = (val: number): void => {
     if (val < 0 || val > finalPage) return;
     setCurrentPage(val);
   };
+
+  const [displayCount, setDisplayCount] = useState(favoritesCount);
+
+  useEffect(() => {
+    setDisplayCount(favoritesCount);
+  }, [favoritesCount]);
 
   return (
     <ActionBar.Root open={true}>
@@ -38,7 +45,7 @@ export const MatchActionBar: React.FC<MatchActionBarProps> = ({
         <ActionBar.Positioner>
           <ActionBar.Content>
             <ActionBar.SelectionTrigger>
-              {favorites.size} selected
+              {displayCount} selected
             </ActionBar.SelectionTrigger>
             <Button
               variant="outline"
